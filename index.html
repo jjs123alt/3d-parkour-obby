@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Parkour Obby</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0a1021;
+        font-family: Arial, sans-serif;
+      }
+
+      #gameContainer {
+        position: fixed;
+        inset: 0;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      #hud {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        z-index: 20;
+        color: #9cf7d4;
+        text-shadow: 0 0 12px rgba(156,247,212,0.7);
+        user-select: none;
+        pointer-events: none;
+      }
+
+      #levelBox {
+        padding: 12px 16px;
+        border: 2px solid #9cf7d4;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.35);
+        margin-bottom: 10px;
+      }
+
+      #levelTitle {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      #stats {
+        padding: 10px 14px;
+        border: 1px solid #9cf7d4;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.35);
+        line-height: 1.7;
+        font-size: 13px;
+      }
+
+      #crosshair {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      #crosshair::before, #crosshair::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #9cf7d4;
+        box-shadow: 0 0 8px rgba(156,247,212,0.8);
+      }
+
+      #crosshair::before {
+        width: 2px;
+        height: 20px;
+      }
+
+      #crosshair::after {
+        width: 20px;
+        height: 2px;
+      }
+
+      #controls {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        z-index: 20;
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.35);
+        border: 1px solid #9cf7d4;
+        color: #dffef2;
+        font-size: 12px;
+        line-height: 1.8;
+        pointer-events: none;
+      }
+
+      .panel {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 25;
+        background: rgba(10,16,33,0.92);
+        border: 2px solid #9cf7d4;
+        border-radius: 12px;
+        box-shadow: 0 0 24px rgba(156,247,212,0.14);
+        min-width: 340px;
+        padding: 30px 32px;
+        text-align: center;
+      }
+
+      .panel h1 {
+        margin: 0 0 12px;
+        color: #9cf7d4;
+        font-size: 32px;
+        letter-spacing: 2px;
+      }
+
+      .panel p {
+        margin: 10px 0 16px;
+        color: #e2fff5;
+        font-size: 16px;
+      }
+
+      .panel button {
+        border: none;
+        border-radius: 8px;
+        padding: 12px 22px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #9cf7d4, #60d0ff);
+        color: #091521;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gameContainer"></div>
+
+    <div id="hud">
+      <div id="levelBox">
+        <div id="levelTitle">Level 1: Beginner Training</div>
+      </div>
+      <div id="stats">
+        <div>Speed: <span id="speedValue">0.00</span></div>
+        <div>Height: <span id="heightValue">0.00</span>m</div>
+        <div>Time: <span id="timeValue">0:00</span></div>
+      </div>
+    </div>
+
+    <div id="crosshair"></div>
+
+    <div id="gameOverPanel" class="panel">
+      <h1>YOU FELL</h1>
+      <p>Try again. Precision matters.</p>
+      <button id="restartBtn">Restart Level</button>
+    </div>
+
+    <div id="levelCompletePanel" class="panel">
+      <h1>LEVEL CLEAR</h1>
+      <p id="levelCompleteText">Nice run!</p>
+      <button id="nextLevelBtn">Next Level</button>
+    </div>
+
+    <div id="controls">
+      <div><strong>CONTROLS</strong></div>
+      <div>WASD = Move</div>
+      <div>SPACE = Jump</div>
+      <div>Mouse = Look</div>
+      <div>Click = Lock Mouse</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/game.js"></script>
+  </body>
+</html>
